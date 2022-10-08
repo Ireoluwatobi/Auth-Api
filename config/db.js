@@ -12,7 +12,6 @@ const selectDB = ( ) => {
 const createDB = async () => {
   try {
     const connect = await mongoose.connect(selectDB());
-    // console.log(connect.connection)
     console.log(
       `Database connected sucessfully to ${connect.connection.host}`.blue
         .underline
