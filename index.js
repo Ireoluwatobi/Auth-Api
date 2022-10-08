@@ -16,9 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1/auth", userRoute);
 
 app.get("/", (req, res) => {
-  res.json({
-    message: "Welcome to my api",
-  });
+  res.send("Hello");
 });
 
 app.use(notFound);
