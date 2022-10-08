@@ -1,15 +1,17 @@
 const mongoose = require("mongoose");
 
-var URI;
-if (process.env.NODE_ENV === "production") {
-  URI = process.env.MONGO_URL;
-} else {
-  URI = process.env.LOCAL_MONGO_URL;
+
+const selectDB = ( ) => {
+    if(process.env.NODE_ENV === "production"){
+        return process.env.MONGO_URI
+    }else{
+      return process.env.LOCAL_MONGO_URL
+    }
 }
+
 const createDB = async () => {
-  console.log(process.env);
   try {
-    const connect = await mongoose.connect(URI);
+    const connect = await mongoose.connect(selectDB());
     // console.log(connect.connection)
     console.log(
       `Database connected sucessfully to ${connect.connection.host}`.blue
