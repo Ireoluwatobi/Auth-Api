@@ -1,7 +1,8 @@
-const User = require("../../models/userModel");
-const { transporter, mailOptions } = require("./mailConfig");
+const User = require("../models/userModel");
+const { transporter, mailOptions } = require("../utils/mailConfig");
+const jwt = require('jsonwebtoken')
 
-const reset = async (req, res) => {
+const forgotPassword = async (req, res) => {
   const { email } = req.body;
 
   if (!email) {
@@ -10,18 +11,23 @@ const reset = async (req, res) => {
       message: "provide all fields",
     });
   }
-  const mail = await User.findOne({ email });
-
-  if (!mail) {
+  const user = await User.findOne({ email });
+ 
+ 
+  if (!user) {
     res.status(404).json({
       status: false,
       message: "user does not exist",
     });
   } else {
+    const id = user._id
+    const token = jwt.sign({id}, process.env.PASS,{
+    "expiresIn" : '1d'  
+    })
     var mailOption = mailOptions(
       email,
       "Forgot Password",
-      `Your password is ${mail.password}`
+      `<a href="http://127.0.0.1/${token}">Click here to reset password</a>`
     );
 
     const sendMe = new Promise((resolve, reject) => {
@@ -39,11 +45,12 @@ const reset = async (req, res) => {
 
     res.status(200).json({
       status: true,
-      message: "password sucessfully sent to your email",
+      message: "Email sent sucessfully",
+      token,
     });
   }
 };
 
 module.exports = {
-  reset,
+  forgotPassword,
 };

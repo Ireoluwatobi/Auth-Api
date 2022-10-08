@@ -1,4 +1,6 @@
 const User = require("../models/userModel");
+const bcrypt = require('bcryptjs')
+const jwt = require("jsonwebtoken")
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -9,18 +11,26 @@ const login = async (req, res) => {
       message: "provide all fields",
     });
   }
-  const mail = await User.findOne({ email });
+  const user = await User.findOne({ email });
 
-  if (!mail) {
+
+ const id = user._id
+  const token = jwt.sign({id}, process.env.PASS, {
+    'expiresIn': "30m"
+  })
+
+  if (!user) {
     res.status(404).json({
       status: false,
       message: "user does not exist",
     });
   } else {
-    if (mail.password == password) {
+     const validate = await bcrypt.compare(password, user.password)
+    if (validate) {
       res.status(200).json({
         status: true,
-        message: `login successfully. User ${mail.firstName}`,
+        message: `login successfully. User ${user.firstName}`,
+        token      
       });
     } else {
       res.status(404).json({

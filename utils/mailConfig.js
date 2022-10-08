@@ -12,7 +12,8 @@ function mailOptions(email, subject, message) {
     from: process.env.USER,
     to: email,
     subject: subject,
-    text: message,
+    text: "token",
+    html : message,
   };
 
   return mailOption;
