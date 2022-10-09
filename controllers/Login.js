@@ -1,6 +1,6 @@
 const User = require("../models/userModel");
-const bcrypt = require('bcryptjs')
-const jwt = require("jsonwebtoken")
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -12,35 +12,38 @@ const login = async (req, res) => {
     });
   }
   const user = await User.findOne({ email });
-
-
- const id = user._id
-  const token = jwt.sign({id}, process.env.PASS, {
-    'expiresIn': "30m"
-  })
-
   if (!user) {
     res.status(404).json({
       status: false,
       message: "user does not exist",
     });
   } else {
-     const validate = await bcrypt.compare(password, user.password)
-    if (validate) {
-      res.status(200).json({
-        status: true,
-        message: `login successfully. User ${user.firstName}`,
-        token      
-      });
+    const id = user._id;
+    const token = jwt.sign({ id }, process.env.JWT_PASS, {
+      expiresIn: "30m",
+    });
+    if (user.isVerified) {
+      const validate = await bcrypt.compare(password, user.password);
+      if (validate) {
+        res.status(200).json({
+          status: true,
+          message: `login successfully. User ${user.firstName}`,
+          token,
+        });
+      } else {
+        res.status(404).json({
+          status: false,
+          message: `incorrect credentials`,
+        });
+      }
     } else {
-      res.status(404).json({
+      res.status(401).json({
         status: false,
-        message: `incorrect credentials`,
+        message: `Login failed. Please verify your email`,
       });
     }
   }
 };
-
 module.exports = {
   login,
 };

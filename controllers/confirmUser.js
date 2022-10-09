@@ -4,7 +4,7 @@ const User = require("../models/userModel");
 const confirmUser = async (req, res) => {
 const token = req.params.id
 
-const validate = jwt.verify(token, process.env.PASS)
+const validate = jwt.verify(token, process.env.JWT_PASS)
 const {id} = validate
  try{
     const findUser = User.findById(id)

@@ -5,12 +5,12 @@ const bcrypt = require("bcryptjs");
 const resetPassword = async (req, res) => {
   const { password, token } = req.body;
 
-  const validate = jwt.verify(token, process.env.PASS);
+  const validate = jwt.verify(token, process.env.JWT_PASS);
 
   const { id } = validate;
 
   const user = await User.findById(id);
-  console.log(user)
+ 
   
   try {
     

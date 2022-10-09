@@ -13,8 +13,8 @@ const createDB = async () => {
   try {
     const connect = await mongoose.connect(selectDB());
     console.log(
-      `Database connected sucessfully to ${connect.connection.host}`.blue
-        .underline
+      `Database connected sucessfully to ${connect.connection.host}`.red
+        .underline.bold
     );
   } catch (error) {
     console.log(error);

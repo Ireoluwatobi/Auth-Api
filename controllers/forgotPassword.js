@@ -21,7 +21,7 @@ const forgotPassword = async (req, res) => {
     });
   } else {
     const id = user._id
-    const token = jwt.sign({id}, process.env.PASS,{
+    const token = jwt.sign({id}, process.env.JWT_PASS,{
     "expiresIn" : '1d'  
     })
     var mailOption = mailOptions(
