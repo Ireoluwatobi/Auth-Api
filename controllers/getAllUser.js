@@ -1,24 +1,25 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const getAllUser = async (req, res) => {
-  const token = req.headers.authorization;
+  const { id } = req.user;
 
-  const { id } = jwt.verify(token, process.env.JWT_PASS);
-
-  const findUser = await User.findById(id);
-
-  if (findUser) {
-    const allUser = await User.findOne({});
-    res.json({
-      status: true,
-      Users: allUser,
-    });
-  } else {
-    res.json({
-      status: false,
-      message: "Access Denied, user does not exist.",
-    });
-  }
+  const allUser = await User.find({});
+  console.log(allUser)
+  res.json({
+    status: true,
+    message : "All users retrieved sucessfully",
+    payload: 
+      allUser.map((el) => {
+        return{
+          id: el._id,
+          firstName : el.firstName,
+          lastName : el.lastName,
+          toDo : el.toDo
+        }
+       
+      })
+    ,
+  });
 };
 
 module.exports = getAllUser;
