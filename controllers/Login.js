@@ -20,7 +20,7 @@ const login = async (req, res) => {
   } else {
     const id = user._id;
     const token = jwt.sign({ id }, process.env.JWT_PASS, {
-      expiresIn: "30m",
+      expiresIn: "30d",
     });
     if (user.isVerified) {
       const validate = await bcrypt.compare(password, user.password);

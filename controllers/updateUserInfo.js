@@ -1,22 +1,17 @@
 const User = require("../models/userModel");
+const jwt = require("jsonwebtoken");
 
 const updateUser = async (req, res) => {
-  const { firstName, lastName, email } = req.body;
+  const token = req.headers.authorization;
+
+  const { id } = jwt.verify(token, process.env.JWT_PASS);
+
   try {
-    const user = await User.findOne({ email });
-
-    user.firstName = firstName;
-    user.lastName = lastName;
-
-    const saved = await user.save();
-    if (saved) {
-      res.json({
-        status: true,
-        message: "Info Updated",
-      });
-    } else {
-      throw error;
-    }
+    await User.findByIdAndUpdate(id, { $set: req.body }, { new: true });
+    res.json({
+      status: saved,
+      message: "Info Updated",
+    });
   } catch (error) {
     res.json({
       status: false,
@@ -27,3 +22,5 @@ const updateUser = async (req, res) => {
 };
 
 module.exports = updateUser;
+
+// authentication flow medium

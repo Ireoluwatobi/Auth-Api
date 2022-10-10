@@ -8,8 +8,8 @@ const validate = jwt.verify(token, process.env.JWT_PASS)
 const {email} = validate
 
  try{
-    const unverifiedUser = await User.findOne({email})
-    if(!unverifiedUser){
+    const verifiedUser = await User.findOne({email})
+    if(!verifiedUser){
         res.json({
             status : false,
             message: "Please request a new verification link"
@@ -17,8 +17,8 @@ const {email} = validate
         })
     }
   
-    unverifiedUser.isVerified = true
-    await unverifiedUser.save()
+    verifiedUser.isVerified = true
+    await verifiedUser.save()
 
     res.json({
         status : true,
