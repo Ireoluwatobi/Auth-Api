@@ -2,14 +2,14 @@ const express = require("express");
 const router = express.Router();
 
 
-const { forgotPassword } = require("../controllers/forgotPassword");
-const { login } = require("../controllers/Login");
-const { register } = require("../controllers/Register");
-const confirmUser = require("../controllers/confirmUser");
-const resetPassword = require("../controllers/resetPassword");
-const verifyUser = require("../controllers/verifyUser");
-const getAllUser = require("../controllers/getAllUser");
-const updateUser = require("../controllers/updateUserInfo");
+const { forgotPassword } = require("../controllers/auth/forgotPassword");
+const { login } = require("../controllers/auth/Login");
+const { register } = require("../controllers/auth/Register");
+const confirmUser = require("../controllers/auth/confirmUser");
+const resetPassword = require("../controllers/auth/resetPassword");
+const verifyUser = require("../controllers/auth/verifyUser");
+const getAllUser = require("../controllers/auth/getAllUser");
+const updateUser = require("../controllers/auth/updateUserInfo");
 const authMiddleware = require("../middlewares/authHandler");
 
 
@@ -29,7 +29,7 @@ router.route("/verify-user/:id").post(verifyUser)
 
 router.route("/get-all-user").post(authMiddleware, getAllUser)
 
-router.route("/update-user-info").post(updateUser)
+router.route("/update-user-info").post(authMiddleware, updateUser)
 
 
 

@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const UserSchema = mongoose.Schema({
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
   isVerified: {
     type: Boolean,
     default: false,
@@ -17,7 +21,7 @@ const UserSchema = mongoose.Schema({
   password: {
     type: String,
   },
-  toDo : [{type : mongoose.Schema.Types.ObjectId, ref : "toDo"}]
+  toDo: [{ type: mongoose.Schema.Types.ObjectId, ref: "toDo" }],
 });
 
 module.exports = mongoose.model("user", UserSchema);

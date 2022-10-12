@@ -1,10 +1,7 @@
-const User = require("../models/userModel");
-const jwt = require("jsonwebtoken");
+const User = require("../../models/userModel");
 
 const updateUser = async (req, res) => {
-  const token = req.headers.authorization;
-
-  const { id } = jwt.verify(token, process.env.JWT_PASS);
+  const { id } = req.user;
 
   try {
     await User.findByIdAndUpdate(id, { $set: req.body }, { new: true });
