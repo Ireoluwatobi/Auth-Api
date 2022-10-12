@@ -2,7 +2,7 @@ const toDo = require("../../models/toDoModel");
 const User = require("../../models/userModel");
 
 const createToDo = async (req, res) => {
-  const { id } = req.user;
+  const { userId } = req.user;
   const { content } = req.body;
   if (!content) {
     res.status(401).json({
@@ -15,7 +15,7 @@ const createToDo = async (req, res) => {
     });
     const todo = await newToDo.save();
 
-    const user = await User.findOne({ id });
+    const user = await User.findById(userId);
     await user.updateOne({ $push: { toDo: todo } });
     res.json({
       status: true,

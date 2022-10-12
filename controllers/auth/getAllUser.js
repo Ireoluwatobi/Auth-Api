@@ -1,10 +1,10 @@
 const User = require("../../models/userModel");
 const jwt = require("jsonwebtoken");
 const getAllUser = async (req, res) => {
-  const { id } = req.user;
+  const { userId } = req.user;
 
   const allUser = await User.find({});
-  console.log(allUser)
+
   res.json({
     status: true,
     message : "All users retrieved sucessfully",

@@ -10,12 +10,12 @@ const router = express.Router();
 
 router.route("/create").post(authMiddleware, createToDo)
 
-router.route("/update/:id").post(authMiddleware, updateToDo)
+router.route("/update/:id").post(updateToDo)
 
-router.route("/delete/:id").post(authMiddleware, deleteToDo)
+router.route("/delete/:id").post(deleteToDo)
 
-router.route("/complete/:id").post(authMiddleware, completeToDo)
+router.route("/complete/:id").post(completeToDo)
 
-router.route("/get-all").post(authMiddleware, getToDos)
+router.route("/get-all").get(authMiddleware, getToDos)
 
 module.exports = router

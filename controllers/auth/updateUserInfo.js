@@ -1,16 +1,24 @@
 const User = require("../../models/userModel");
 
 const updateUser = async (req, res) => {
-  const { id } = req.user;
+  const { userId } = req.user;
 
   try {
-    await User.findByIdAndUpdate(id, { $set: req.body }, { new: true });
-    res.json({
-      status: saved,
-      message: "Info Updated",
-    });
+    // const user = await User.findOne(userId)
+    // console.log(user.firstName)
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $set: req.body },
+      { new: true }
+    );
+    if (user) {
+      res.status(200).json({
+        status: true,
+        message: "Info Updated",
+      });
+    }
   } catch (error) {
-    res.json({
+    res.status(404).json({
       status: false,
       message: "User not Found!",
       error,

@@ -21,7 +21,7 @@ const UserSchema = mongoose.Schema({
   password: {
     type: String,
   },
-  toDo: [{ type: mongoose.Schema.Types.ObjectId, ref: "toDo" }],
+  toDo : [{ type : mongoose.Schema.Types.ObjectId, ref: "todo"}],
 });
 
 module.exports = mongoose.model("user", UserSchema);

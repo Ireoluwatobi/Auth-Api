@@ -27,7 +27,7 @@ router.route("/reset-password").post(resetPassword)
 
 router.route("/verify-user/:id").post(verifyUser)
 
-router.route("/get-all-user").post(authMiddleware, getAllUser)
+router.route("/get-all-user").get(authMiddleware, getAllUser)
 
 router.route("/update-user-info").post(authMiddleware, updateUser)
 
